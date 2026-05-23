@@ -1,6 +1,6 @@
 # Speexx Exercise Automation Skill
 
-Claude Code 自动化完成 Speexx（仕必课）语言学习练习的 Agent Skill。
+Claude Code 自动化完成 Speexx 语言学习练习的 Agent Skill。
 
 ## 功能
 
@@ -23,7 +23,7 @@ git clone https://github.com/mtdxmtdx/Auto_Speexx-skill.git ~/.claude/skills/spe
 
 ## 使用
 
-在 Claude Code 中输入 `   Speexx  ` 或 `/speexx-exercise-automation` 触发 skill，然后按提示回答：
+在 Claude Code 中输入 `/speexx-exercise-automation` 触发 skill，然后按提示回答：
 
 1. 打开需要完成的第一个练习页面
 2. 需要完成多少小节？（如 6 小节，或 12-14 小节）
