@@ -24,7 +24,7 @@ Automate completion of Speexx (  ) language learning exercises at `https://porta
 4. Ask the user: "      ?" (Do you need to complete pronunciation exercises?)
    - If YES: pronunciation packets within or immediately after the target range will be completed automatically.
    - If NO: all pronunciation packets will be skipped.
-5. Confirm: "       ,     Next    ?" (CRITICAL: Unless you request otherwise, I will NOT complete level test exercises. Is this OK?)
+5. Confirm: "       ,     Next    ?" (CRITICAL: Unless you explicitly request it, I will NOT complete level test packets. Level tests are special assessment packets — if you do want them completed, answers will be filled directly without Correction verification. Is this OK?)
 
 **Do NOT proceed to Phase 2 until all questions are answered.**
 
@@ -44,6 +44,22 @@ For each exercise in each packet, follow this pattern:
    - If score is NOT 100/100 → repeat step 2 from (b) through (e). The previous attempt may have left some answers unfilled or incorrectly placed. Re-read the revealed answers, click Repeat, fill again, and re-check.
    - Continue retrying until 100/100 is achieved.
 4. **Exception:** Video and pronunciation exercises skip the 100% requirement (see type-specific rules).
+
+### Phase 2b: Level Test Packets (     / Level Test)
+
+Level tests are **special assessment packets**, not a distinct exercise type. They contain the same exercise types as standard packets but are handled differently.
+
+**Default behavior:** Skip level test packets entirely. Do NOT click into a level test packet — click "    " to bypass it immediately. Only enter and complete level test packets if the user explicitly requested it in Phase 1 step 5.
+
+**When user explicitly requests level test completion**, use a simplified direct-fill flow — no Correction checking, no 100% verification:
+
+1. **Identify the exercise type** within the level test packet — take a snapshot, read the DOM structure.
+2. **Directly fill answers:**
+   - For drag-drop, scrambled-table, checkboxes, text fill-in, scrambled sentences: use the same type-specific JS patterns from `references/exercise-patterns.md`, but skip the Correction → Reveal → Repeat preamble. Deduce correct answers from the word bank, context, and visible DOM content.
+   - For video exercises: click Next immediately.
+   - For pronunciation exercises: trigger mic, wait for feedback, click Next.
+3. **Click "Next"** immediately after filling — do NOT click Correction to verify.
+4. **No retry loop** — fill once and move on. Speed is prioritized over accuracy for level tests.
 
 ### Phase 3: Continue Until Done
 
@@ -102,4 +118,4 @@ For detailed code patterns for each exercise type, read `references/exercise-pat
 4. **For checkbox exercises after Repeat**, the answers are reset — re-check them via JavaScript dispatching `change` and `click` events.
 5. **For drag-drop after Repeat**, the drag items return to the word bank — re-run the complete placement script.
 6. **Pronunciation exercises** have 11 units per packet typically. Workflow: first check if "You can do better!" is already visible in the bottom-left corner. If YES → click Next directly. If NO → click mic button → click mic again (to stop) → verify "You can do better!" appears → click Next. No 100% score needed. **Only complete pronunciation packets if the user said YES in Phase 1 step 4, and even then, only those sandwiched within the target range or immediately following the last target packet; skip all others.**
-7. **Never complete level test (    ) exercises** unless the user explicitly requests it.
+7. **Level test packets (    ) are special assessment sections, not an exercise type.** By default, do NOT click into level test packets — skip them immediately via "    ". Only enter and complete them when the user explicitly requests it. When explicitly requested: fill answers directly without Correction → Reveal → Repeat cycle, no 100% verification — deduce answers from word bank and context, fill once, click Next.
