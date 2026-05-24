@@ -24,7 +24,7 @@ Automate completion of Speexx (  ) language learning exercises at `https://porta
 4. Ask the user: "      ?" (Do you need to complete pronunciation exercises?)
    - If YES: pronunciation packets within or immediately after the target range will be completed automatically.
    - If NO: all pronunciation packets will be skipped.
-5. Inform the user: "       ,     Next    ?" (IMPORTANT: Level test packets will ALWAYS be skipped — they must be completed manually by the user. I will remind you when one is encountered.)
+5. Confirm: "       ,     Next    ?" (CRITICAL: Unless you explicitly request it, I will NOT complete level test packets. Level tests must be completed manually. Is this OK?)
 
 **Do NOT proceed to Phase 2 until all questions are answered.**
 
@@ -49,11 +49,16 @@ For each exercise in each packet, follow this pattern:
 
 Level tests are **special assessment packets**, not a distinct exercise type. They contain the same exercise types as standard packets but are handled differently.
 
-**ALWAYS skip level test packets under all circumstances.** When a level test packet is encountered:
+**Default behavior:** Skip level test packets. Do NOT click into a level test packet — click "    " to bypass immediately and remind the user: "Level tests must be completed manually."
 
-1. Do NOT click into it — click "    " to bypass immediately.
-2. Remind the user: "Level tests must be completed manually. I'm skipping this one."
-3. Continue to the next packet.
+**When user explicitly requests level test completion**, use a simplified direct-fill flow:
+
+1. **Identify the exercise type** within the level test packet — take a snapshot, read the DOM structure.
+2. **Directly fill answers** — deduce correct answers from the word bank, context, and visible DOM content. Use the same type-specific JS patterns from `references/exercise-patterns.md`.
+3. **Click "Next"** immediately after filling.
+4. **CRITICAL: NEVER click "Correction" during level tests** — clicking Correction may submit the assessment prematurely or trigger unwanted side effects. Fill answers and click Next only.
+5. **No retry loop** — fill once and move on. Speed is prioritized over accuracy.
+6. For video exercises: click Next immediately. For pronunciation exercises: trigger mic, wait for feedback, click Next.
 
 ### Phase 3: Continue Until Done
 
@@ -112,4 +117,4 @@ For detailed code patterns for each exercise type, read `references/exercise-pat
 4. **For checkbox exercises after Repeat**, the answers are reset — re-check them via JavaScript dispatching `change` and `click` events.
 5. **For drag-drop after Repeat**, the drag items return to the word bank — re-run the complete placement script.
 6. **Pronunciation exercises** have 11 units per packet typically. Workflow: first check if "You can do better!" is already visible in the bottom-left corner. If YES → click Next directly. If NO → click mic button → click mic again (to stop) → verify "You can do better!" appears → click Next. No 100% score needed. **Only complete pronunciation packets if the user said YES in Phase 1 step 4, and even then, only those sandwiched within the target range or immediately following the last target packet; skip all others.**
-7. **Level test packets (    ) must ALWAYS be skipped — no exceptions.** Level tests are special assessment sections that the user must complete manually. When encountering a level test packet, skip it immediately and remind the user: "Level tests must be completed manually."
+7. **Level test packets (    ) are special assessment sections, not an exercise type.** By default, skip level test packets — do NOT click into them. Only complete them when the user explicitly requests it. When completing level tests: NEVER click "Correction" — fill answers directly and click Next only. Clicking Correction during a level test may submit the assessment prematurely.
